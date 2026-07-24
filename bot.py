@@ -39,7 +39,7 @@ try:
     )
 
     data = response.json()
-
+send_message(str(data.keys()))
     total = data["results"]["total"]["value"]
 
     if total > 0:
