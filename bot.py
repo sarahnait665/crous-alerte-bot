@@ -1,6 +1,5 @@
 import os
 import requests
-import json
 
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
@@ -17,8 +16,19 @@ def send_message(text):
     )
 
 payload = {
-    "page": 1,
-    "pageSize": 10
+    "page": 0,
+    "pageSize": 1,
+    "occupationModes": ["alone"],
+    "bounds": {
+        "southWest": {
+            "lat": 48.6109217,
+            "lng": 2.4130316
+        },
+        "northEast": {
+            "lat": 48.6485333,
+            "lng": 2.4705092
+        }
+    }
 }
 
 try:
@@ -28,11 +38,19 @@ try:
         timeout=20
     )
 
-    send_message(
-        "Status API : " + str(response.status_code) +
-        "\n\nRéponse :\n" +
-        response.text[:1000]
-    )
+    data = response.json()
+    total = data["results"]["total"]["value"]
+
+    if total > 0:
+        logement = data["results"]["items"][0]
+
+        send_message(
+            f"🚨 LOGEMENT TROUVÉ !\n\n"
+            f"Nombre disponible : {total}\n"
+            f"Résidence : {logement.get('residence', {}).get('name', 'Inconnue')}"
+        )
+    else:
+        send_message("🔎 Aucun logement Évry pour le moment.")
 
 except Exception as e:
-    send_message("Erreur : " + str(e))
+    send_message("❌ Erreur : " + str(e))
