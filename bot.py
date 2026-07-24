@@ -1,5 +1,6 @@
 import os
 import requests
+import json
 
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
@@ -15,20 +16,23 @@ def send_message(text):
         }
     )
 
-try:
-    response = requests.get(API_URL, timeout=20)
+payload = {
+    "page": 1,
+    "pageSize": 10
+}
 
-    if response.status_code == 200:
-        data = response.text[:500]
-        send_message(
-            "✅ API accessible !\n\nRéponse reçue :\n" + data
-        )
-    else:
-        send_message(
-            f"❌ API erreur HTTP : {response.status_code}"
-        )
+try:
+    response = requests.post(
+        API_URL,
+        json=payload,
+        timeout=20
+    )
+
+    send_message(
+        "Status API : " + str(response.status_code) +
+        "\n\nRéponse :\n" +
+        response.text[:1000]
+    )
 
 except Exception as e:
-    send_message(
-        "❌ Erreur : " + str(e)
-    )
+    send_message("Erreur : " + str(e))
