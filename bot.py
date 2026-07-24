@@ -39,24 +39,22 @@ try:
     )
 
     data = response.json()
+
     total = data["results"]["total"]["value"]
 
-if total > 0:
-    logement = data["results"]["items"][0]
+    if total > 0:
+        logement = data["results"]["items"][0]
+        residence = logement.get("residence", {})
 
-    residence = logement.get("residence", {})
+        send_message(
+            f"🚨 TEST API\n\n"
+            f"Nombre trouvé : {total}\n"
+            f"Adresse : {residence.get('address', 'Inconnue')}\n"
+            f"ID logement : {logement.get('id')}"
+        )
 
-    send_message(
-        f"🚨 TEST API\n\n"
-        f"Nombre trouvé : {total}\n"
-        f"Adresse : {residence.get('address', 'Inconnue')}\n"
-        f"ID logement : {logement.get('id')}\n"
-        f"Code résidence : {residence.get('code')}"
-    )
-else:
-    send_message("🔎 Aucun logement trouvé.")
     else:
-        send_message("🔎 Aucun logement Évry pour le moment.")
+        send_message("🔎 Aucun logement trouvé.")
 
 except Exception as e:
     send_message("❌ Erreur : " + str(e))
