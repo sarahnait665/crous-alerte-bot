@@ -1,5 +1,6 @@
 import os
 import requests
+import json
 
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
@@ -39,22 +40,13 @@ try:
     )
 
     data = response.json()
-send_message(str(data.keys()))
-    total = data["results"]["total"]["value"]
 
-    if total > 0:
-        logement = data["results"]["items"][0]
-        residence = logement.get("residence", {})
-
-        send_message(
-            f"🚨 TEST API\n\n"
-            f"Nombre trouvé : {total}\n"
-            f"Adresse : {residence.get('address', 'Inconnue')}\n"
-            f"ID logement : {logement.get('id')}"
-        )
-
-    else:
-        send_message("🔎 Aucun logement trouvé.")
+    send_message(
+        "Clés reçues par l'API :\n" +
+        str(data.keys())
+    )
 
 except Exception as e:
-    send_message("❌ Erreur : " + str(e))
+    send_message(
+        "❌ Erreur : " + str(e)
+    )
