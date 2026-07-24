@@ -41,12 +41,12 @@ try:
 
     data = response.json()
 
+    item = data["results"]["items"][0]
+
     send_message(
-        "Clés reçues par l'API :\n" +
-        str(data.keys())
+        "Premier logement trouvé :\n\n" +
+        json.dumps(item, indent=2, ensure_ascii=False)[:3000]
     )
 
 except Exception as e:
-    send_message(
-        "❌ Erreur : " + str(e)
-    )
+    send_message("❌ Erreur : " + str(e))
