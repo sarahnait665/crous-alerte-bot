@@ -30,12 +30,17 @@ with sync_playwright() as p:
 
 
 if "Aucun logement trouvé pour Évry (91000)" in text:
-    pass
+    send(
+        "🤖 Vérification effectuée.\n\n"
+        "✅ Le bot fonctionne correctement.\n"
+        "📭 Toujours aucun logement disponible à Évry.\n\n"
+        "🕒 Prochaine vérification dans 5 minutes."
+    )
 else:
     send(
         "🚨🚨🚨 ALERTE CROUS 🚨🚨🚨\n\n"
-        "UN LOGEMENT EST APPARU À ÉVRY !\n\n"
-        "Ouvre immédiatement :\n"
+        "🏠 UN LOGEMENT EST APPARU À ÉVRY !\n\n"
+        "👉 Ouvre immédiatement :\n"
         "https://trouverunlogement.lescrous.fr/tools/47/search?occupationModes=alone&bounds=2.4130316_48.6485333_2.4705092_48.6109217&locationName=%C3%89vry+%2891000%29\n\n"
         "⚠️ Dépêche-toi !"
     )
