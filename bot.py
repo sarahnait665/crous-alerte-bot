@@ -5,7 +5,7 @@ import json
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 
-API_URL = "https://trouverunlogement.lescrous.fr/api/fr/search/26"
+API_URL = "https://trouverunlogement.lescrous.fr/api/fr/search/47"
 
 def send_message(text):
     requests.post(
