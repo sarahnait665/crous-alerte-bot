@@ -18,18 +18,8 @@ def send_message(text):
 
 payload = {
     "page": 0,
-    "pageSize": 1,
-    "occupationModes": ["alone"],
-    "bounds": {
-        "southWest": {
-            "lat": 48.6109217,
-            "lng": 2.4130316
-        },
-        "northEast": {
-            "lat": 48.6485333,
-            "lng": 2.4705092
-        }
-    }
+    "pageSize": 0,
+    "occupationModes": ["alone"]
 }
 
 try:
@@ -41,11 +31,12 @@ try:
 
     data = response.json()
 
-    item = data["results"]["items"][0]
-
     send_message(
-        "Premier logement trouvé :\n\n" +
-        json.dumps(item, indent=2, ensure_ascii=False)[:3000]
+        json.dumps(
+            data["aggregations"],
+            indent=2,
+            ensure_ascii=False
+        )[:4000]
     )
 
 except Exception as e:
