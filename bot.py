@@ -30,12 +30,8 @@ with sync_playwright() as p:
 
 
 if "Aucun logement trouvé pour Évry (91000)" in text:
-    send(
-        "🤖 Vérification effectuée.\n\n"
-        "✅ Le bot fonctionne correctement.\n"
-        "📭 Toujours aucun logement disponible à Évry.\n\n"
-        "🕒 Prochaine vérification dans 5 minutes."
-    )
+    # Aucun logement : ne rien faire
+    pass
 else:
     send(
         "🚨🚨🚨 ALERTE CROUS 🚨🚨🚨\n\n"
